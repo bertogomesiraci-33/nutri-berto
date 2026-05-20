@@ -121,17 +121,14 @@ const Dashboard: React.FC = () => {
         if (consultasDoPaciente.length > 0) {
           // Existe pelo menos uma consulta registrada
           const ultimaConsulta = consultasDoPaciente[0];
-          const dataUltima = new Date(ultimaConsulta.data_consulta + 'T00:00:00');
           
-        // Verifica se possui algum retorno agendado no futuro
-        const temRetornoFuturo = consultasDoPaciente.some(
-          c => c.proximo_retorno && c.proximo_retorno >= hojeStr
-        );
+          // Verifica se possui algum retorno agendado no futuro
+          const temRetornoFuturo = consultasDoPaciente.some(
+            c => c.proximo_retorno && c.proximo_retorno >= hojeStr
+          );
 
-        // Se não houver retorno futuro, incluir na lista
-        if (!temRetornoFuturo) {
-          if (consultasDoPaciente.length > 0) {
-            const ultimaConsulta = consultasDoPaciente[0];
+          // Se não houver retorno futuro, incluir na lista
+          if (!temRetornoFuturo) {
             const dataUltima = new Date(ultimaConsulta.data_consulta + 'T00:00:00');
             const diffTime = now.getTime() - dataUltima.getTime();
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
@@ -144,15 +141,15 @@ const Dashboard: React.FC = () => {
               diasSemConsulta: diffDays,
               dataUltimaConsulta: dataFormatada
             });
-          } else {
-            // Paciente sem nenhuma consulta registrada
-            semRetornoList.push({
-              id: paciente.id,
-              nome: paciente.nome,
-              diasSemConsulta: 0,
-              dataUltimaConsulta: '-'
-            });
           }
+        } else {
+          // Paciente sem nenhuma consulta registrada
+          semRetornoList.push({
+            id: paciente.id,
+            nome: paciente.nome,
+            diasSemConsulta: 0,
+            dataUltimaConsulta: '-'
+          });
         }
       });
 
